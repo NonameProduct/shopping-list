@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText_item_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/item_hint"/>
+        <Button
+            android:id="@+id/button_add_to_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_to_list"
+            android:onClick="addItemToList"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView_shopping_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This is the shopping list"/>
+        <TextView
+            android:id="@+id/sharedPreference_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Here should be displayed the content of the shared preference"/>
+    </LinearLayout>
+
+</LinearLayout>

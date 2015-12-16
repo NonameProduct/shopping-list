@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+    <string name="item_hint">Hier Gegenstand eintragen.</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_add_to_list">Add</string>
+</resources>
