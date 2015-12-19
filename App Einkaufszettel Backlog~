@@ -1,0 +1,6 @@
+US
+- List is saved after closing the application and loaded afterwards again
+- Items can be deleted after entry
+- Items can be reordered after entry
+- Have multiple lists for different topics. Each should have a headding.
+- Suggest Items, based on the items that have been added previously

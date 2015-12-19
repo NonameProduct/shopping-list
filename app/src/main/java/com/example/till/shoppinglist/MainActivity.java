@@ -1,24 +1,25 @@
 package com.example.till.shoppinglist;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    public String shopping_list_items;
-    public String preferenceFieldName = "shopping_list_items";
+    public List<String> shopping_list_items;
+    public String sharedPreferenceFieldName_nListEntries = "nListEntries";
+    public String sharedPreferenceFieldName_listEntry = "listEntry";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.delete_list) {
-            shopping_list_items = "";
+            shopping_list_items = new ArrayList<String>();
             return true;
         }
 
@@ -53,9 +54,23 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
+        ListView lv = (ListView) findViewById(R.id.listView_shopping_list);
         SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
-        String restoredText = prefs.getString(preferenceFieldName, "");
-        shopping_list_items = restoredText;
+
+        shopping_list_items = new ArrayList<String>();
+        int nListEntries = prefs.getInt(sharedPreferenceFieldName_nListEntries, 0);
+        for(int i=0; i<nListEntries; i++){
+            shopping_list_items.add(prefs.getString(sharedPreferenceFieldName_listEntry + i, ""));
+        }
+
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                shopping_list_items );
+
+        lv.setAdapter(arrayAdapter);
+
     }
 
     @Override
@@ -63,15 +78,26 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE).edit();
-        editor.putString(preferenceFieldName, shopping_list_items);
+        Log.i(getString(R.string.logging_tag), "length of list: " + String.valueOf(shopping_list_items.size()) + "     ");
+        for (int i = 0; i < shopping_list_items.size(); i++) {
+            editor.putString(sharedPreferenceFieldName_listEntry + i, shopping_list_items.get(i));
+        }
+        editor.putInt(sharedPreferenceFieldName_nListEntries, shopping_list_items.size());
         editor.commit();
     }
 
-    public void addItemToList(View view){
-        TextView tv = (TextView) findViewById(R.id.textView_shopping_list);
+    public void addItemToList(View view) {
+        ListView lv = (ListView) findViewById(R.id.listView_shopping_list);
         EditText et = (EditText) findViewById(R.id.editText_item_entry);
-        shopping_list_items = shopping_list_items + "\n" + et.getText();
-        tv.setText(shopping_list_items);
+        String text = et.getText().toString();
+        shopping_list_items.add(text);
         et.setText(null);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                shopping_list_items );
+
+        lv.setAdapter(arrayAdapter);
+
     }
 }
