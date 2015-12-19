@@ -4,4 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="button_add_to_list">Add</string>
+    <string name="logging_tag">com.example.till.shoppinglist_log</string>
+    <string name="action_delete_list">delete list</string>
+    <string name="shared_preferences">com.example.till.shoppinglist</string>
 </resources>

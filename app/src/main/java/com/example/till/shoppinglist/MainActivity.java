@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +15,10 @@ import android.widget.TextView;
 import java.util.Map;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     public String shopping_list_items;
-    final String packageName = "com.example.till.shoppinglist";
+    public String preferenceFieldName = "shopping_list_items";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +51,19 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
-        SharedPreferences prefs = this.getSharedPreferences(packageName, Context.MODE_PRIVATE);
-        shopping_list_items = prefs.getString("shopping_list_items", "blablabla");
 
-        Map<String, ?> allEntries = prefs.getAll();
-
-        TextView tv = (TextView) findViewById(R.id.sharedPreference_display);
-        tv.setText(allEntries.toString());
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE);
+        String restoredText = prefs.getString(preferenceFieldName, "");
+        shopping_list_items = restoredText;
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        SharedPreferences prefs = this.getSharedPreferences(packageName, Context.MODE_PRIVATE);
-        prefs.edit().putString("shopping_list_items", shopping_list_items);
-        prefs.edit().commit();
+
+        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.shared_preferences), MODE_PRIVATE).edit();
+        editor.putString(preferenceFieldName, shopping_list_items);
+        editor.commit();
     }
 
     public void addItemToList(View view){
@@ -72,6 +72,5 @@ public class MainActivity extends ActionBarActivity {
         shopping_list_items = shopping_list_items + "\n" + et.getText();
         tv.setText(shopping_list_items);
         et.setText(null);
-
     }
 }
